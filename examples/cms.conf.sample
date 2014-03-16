@@ -22,23 +22,28 @@
         "ScoringService":    [["localhost", 28500]],
         "Checker":           [["localhost", 22000]],
         "EvaluationService": [["localhost", 25000]],
-        "Worker":            [["localhost", 26000], ["localhost", 26001]],
+        "Worker":            [
+            ["localhost", 26000], 
+            ["localhost", 26001],
+            ["localhost", 26002],
+            ["localhost", 26003] 
+        ],
         "ContestWebServer":  [["localhost", 21000]],
         "AdminWebServer":    [["localhost", 21100]],
         "ProxyService":      [["localhost", 28600]]
-        },
+    },
 
     "other_services":
     {
         "TestFileCacher":    [["localhost", 27501]]
-        },
+    },
 
 
 
     "_section": "Database",
 
     "_help": "Connection string for the database.",
-    "database": "postgresql+psycopg2://cmsuser:password@localhost/database",
+    "database": "postgresql+psycopg2://cmsuser:urnf6tjby4mg7@localhost/database",
 
     "_help": "Whether SQLAlchemy prints DB queries on stdout.",
     "database_debug": false,
@@ -65,7 +70,7 @@
     "_help": "contest. Particularly, you should not use this example",
     "_help": "for other than testing. You can easily create a key",
     "_help": "calling cmscommon.crypto.get_hex_random_key().",
-    "secret_key":             "8e045a51e4b102ea803c06f92841a1fb",
+    "secret_key":             "c1e8f10496edfc45e58d54a13611b74c",
 
     "_help": "Whether Tornado prints debug information on stdout.",
     "tornado_debug": false,
@@ -79,7 +84,7 @@
     "_help": "as a load balancer) running on the same host you could put",
     "_help": "127.0.0.1 here for additional security.",
     "contest_listen_address": [""],
-    "contest_listen_port":    [8888],
+    "contest_listen_port":    [80],
 
     "_help": "Login cookie duration in seconds. The duration is refreshed",
     "_help": "on every manual request.",
@@ -108,7 +113,7 @@
     "_help": "and set these sizes to large values remember to change",
     "_help": "client_max_body_size in nginx.conf too.",
     "max_submission_length": 100000,
-    "max_input_length": 5000000,
+    "max_input_length": 50000000,
 
     "_help": "STL documentation path in the system (exposed in CWS).",
     "stl_path": "/usr/share/doc/stl-manual/html/",
@@ -124,7 +129,7 @@
     "_help": "it through a proxy running on the same host you could put",
     "_help": "127.0.0.1 here for additional security.",
     "admin_listen_address": "",
-    "admin_listen_port":    8889,
+    "admin_listen_port":   8889,
 
 
 
@@ -135,7 +140,9 @@
     "_help": "load balancing proxy (if any), just the backends. If any",
     "_help": "of them uses HTTPS specify a file with the certificates",
     "_help": "you trust.",
-    "rankings": ["http://usern4me:passw0rd@localhost:8890/"],
+
+    "rankings": [],
+    "_rankings": ["http://usern6me:passw8rd@localhost:8890/"],
     "https_certfile": null,
 
 

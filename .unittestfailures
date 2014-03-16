@@ -1,0 +1,3 @@
+cmstestsuite/unit_tests/service ScoringServiceTest.py
+cmstestsuite/unit_tests/service LogServiceTest.py
+cmstestsuite/unit_tests/service WorkerTest.py

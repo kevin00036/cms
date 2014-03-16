@@ -414,12 +414,19 @@ class WorkerPool(object):
         self._start_time[shard] = make_datetime()
         self._side_data[shard] = side_data
         logger.debug("Worker %s acquired." % shard)
+        
+        is_subobj = False
+        if len(job) != 3:
+            is_subobj = True
+            job, job_group = job
 
         # And finally we ask the worker to do the job
         job_type, object_id, dataset_id = job
         timestamp = side_data[1]
         queue_time = self._start_time[shard] - timestamp
-        logger.info("Asking worker %s to %s submission/user test %d(%d) "
+        
+        if not is_subobj:
+            logger.info("Asking worker %s to %s submission/user test %d(%d) "
                     " (%s after submission)." %
                     (shard, job_type, object_id, dataset_id, queue_time))
 
@@ -429,11 +436,6 @@ class WorkerPool(object):
                 dataset = Dataset.get_from_id(dataset_id, session)
                 job_group = \
                     JobGroup.from_submission_compilation(submission, dataset)
-            elif job_type == EvaluationService.JOB_TYPE_EVALUATION:
-                submission = Submission.get_from_id(object_id, session)
-                dataset = Dataset.get_from_id(dataset_id, session)
-                job_group = \
-                    JobGroup.from_submission_evaluation(submission, dataset)
             elif job_type == EvaluationService.JOB_TYPE_TEST_COMPILATION:
                 user_test = UserTest.get_from_id(object_id, session)
                 dataset = Dataset.get_from_id(dataset_id, session)
@@ -643,7 +645,7 @@ class EvaluationService(Service):
     WORKER_CONNECTION_CHECK_TIME = timedelta(seconds=10)
 
     # How often we check if we can assign a job to a worker.
-    CHECK_DISPATCH_TIME = timedelta(seconds=2)
+    CHECK_DISPATCH_TIME = timedelta(seconds=1)
 
     # How often we look for submission not compiled/evaluated.
     JOBS_NOT_DONE_CHECK_TIME = timedelta(seconds=117)
@@ -678,6 +680,8 @@ class EvaluationService(Service):
                          EvaluationService.JOBS_NOT_DONE_CHECK_TIME
                          .total_seconds(),
                          immediately=True)
+
+        self.subjobs = {}
 
     @rpc_method
     def search_jobs_not_done(self):
@@ -776,6 +780,45 @@ class EvaluationService(Service):
             priority, timestamp, job = self.queue.top()
         except LookupError:
             return False
+
+        #logger.info('POP__QUEUE_______' + str(job))
+
+        if len(job) != 3 or job[0] == EvaluationService.JOB_TYPE_EVALUATION:
+            if len(job) == 3:
+                job_type, object_id, dataset_id = job
+                self.queue.pop()
+
+                logger.info("Asking workers to %s submission/user test %d(%d)."
+                    % (job_type, object_id, dataset_id))
+
+                with SessionGen() as session:
+                    submission = Submission.get_from_id(object_id, session)
+                    dataset = Dataset.get_from_id(dataset_id, session)
+                    job_group, sjobs = JobGroup.from_submission_evaluation(
+                                submission, dataset, job)
+                    #logger.info(sjobs)
+
+                    self.subjobs[job] = \
+                    {
+                        'main_job': job_group, 
+                        'count': len(sjobs),
+                        'completed': set()
+                    }
+
+                    for k, sj in sjobs.iteritems():
+                        #logger.info('PUSH___QUEUE____' + str(k))
+                        self.push_in_queue(
+                            sj, 
+                            EvaluationService.JOB_PRIORITY_HIGH,
+                            submission.timestamp)
+
+                return True
+            else:
+                pass
+                #logger.info('EEEEE\n' + str(job))
+
+        else:
+            job_type, object_id, dataset_id = job
 
         res = self.pool.acquire_worker(job, side_data=(priority, timestamp))
         if res is not None:
@@ -921,10 +964,17 @@ class EvaluationService(Service):
         has other related jobs in the queue or assigned to a worker.
 
         """
+        if len(job) != 3:
+            job, sj = job
+            return False #TODO not false
+
+
         job_type, object_id, dataset_id = job
 
-        if job_type in (EvaluationService.JOB_TYPE_COMPILATION,
-                        EvaluationService.JOB_TYPE_EVALUATION):
+        if job_type == EvaluationService.JOB_TYPE_EVALUATION:
+            return (job in self.queue) or (job in self.subjobs)
+
+        if job_type == EvaluationService.JOB_TYPE_COMPILATION:
             return self.submission_busy(object_id, dataset_id)
         elif job_type in (EvaluationService.JOB_TYPE_TEST_COMPILATION,
                           EvaluationService.JOB_TYPE_TEST_EVALUATION):
@@ -941,6 +991,9 @@ class EvaluationService(Service):
         return (bool): True if pushed, False if not.
 
         """
+
+        #logger.info('+++REAL_PUSH_QQQQ ' + str(job))
+
         if self.job_busy(job):
             return False
         else:
@@ -992,6 +1045,30 @@ class EvaluationService(Service):
                     logger.error("Worker %s signaled action "
                                  "not successful." % shard)
                     job_success = False
+
+        if job_type == EvaluationService.JOB_TYPE_EVALUATION:
+            main_job = (job_type, object_id, dataset_id[0])
+            testcase_id = dataset_id[1]
+            dataset_id = dataset_id[0]
+
+            if main_job in self.subjobs:
+                self.subjobs[main_job]['main_job'].jobs[testcase_id] = \
+                        job_group.jobs[testcase_id]
+                if job_success == False:
+                    self.subjobs[main_job]['main_job'].success = False
+                self.subjobs[main_job]['completed'].add(testcase_id)
+                
+                completed_count = len(self.subjobs[main_job]['completed'])
+                total_count = self.subjobs[main_job]['count']
+                if completed_count >= total_count:
+                    job_success = \
+                        (self.subjobs[main_job]['main_job'].success != False)
+                    job_group = self.subjobs[main_job]['main_job']
+                    del self.subjobs[main_job]
+                else:
+                    return
+            else:
+                return
 
         _, timestamp = side_data
 

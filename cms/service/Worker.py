@@ -103,6 +103,7 @@ class Worker(Service):
                 for k, job in job_group.jobs.iteritems():
                     logger.info("Starting job.",
                                 extra={"operation": job.info})
+                    #self.rpc_test(job_group_dict)
 
                     job.shard = self.shard
 
@@ -147,3 +148,10 @@ class Worker(Service):
                 "running, or for bugs in ES."
             logger.warning(err_msg)
             raise JobException(err_msg)
+
+    @rpc_method
+    def rpc_test(self, mes):
+        logger.info(mes)
+
+
+

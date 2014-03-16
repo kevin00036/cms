@@ -383,6 +383,7 @@ class RemoteServiceServer(RemoteServiceBase):
         try:
             data = json.dumps(response, encoding='utf-8')
         except (TypeError, ValueError):
+            #log.info(response)
             logger.warning("JSON encoding failed.")
             return
 
@@ -579,6 +580,7 @@ class RemoteServiceClient(RemoteServiceBase):
         try:
             data = json.dumps(request, encoding='utf-8')
         except (TypeError, ValueError):
+            #log.info(response)
             result.set_exception(RPCError("JSON encoding failed."))
             return result
 

@@ -443,7 +443,7 @@ class JobGroup(object):
     # Evaluation
 
     @staticmethod
-    def from_submission_evaluation(submission, dataset):
+    def from_submission_evaluation(submission, dataset, orig_job = None):
         job = EvaluationJob()
 
         # Job
@@ -465,6 +465,7 @@ class JobGroup(object):
         job.memory_limit = dataset.memory_limit
 
         jobs = dict()
+        sjobs = dict()
 
         for k, testcase in dataset.testcases.iteritems():
             job2 = deepcopy(job)
@@ -475,8 +476,10 @@ class JobGroup(object):
                         (submission.id, testcase.codename)
 
             jobs[k] = job2
+            ojob = (orig_job[0], orig_job[1], (orig_job[2], k))
+            sjobs[k] = (ojob, JobGroup({k: deepcopy(job2)}))
 
-        return JobGroup(jobs)
+        return JobGroup(jobs), sjobs
 
     def to_submission_evaluation(self, sr):
         # This should actually be useless.
