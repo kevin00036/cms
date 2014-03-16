@@ -184,7 +184,7 @@ class ResourceService(Service):
 
         """
         logger.debug("ResourceService._find_proc")
-        for proc in psutil.process_iter():
+        for proc in psutil.get_process_list():
             try:
                 if len(proc.cmdline) >= 3 and "python" in proc.cmdline[0] and \
                         proc.cmdline[1].endswith("cms%s" % service.name) and \
