@@ -4,3 +4,4 @@
 build
 dist
 cms.egg-info
+examples/cms.conf.sample
