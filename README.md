@@ -1,6 +1,7 @@
 CMS - Contest Management System
 =================================
 
+Modified by STEP5
 
 Introduction
 ------------
