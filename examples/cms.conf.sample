@@ -17,25 +17,25 @@
 
     "core_services":
     {
-        "LogService":        [["localhost", 29000]],
-        "ResourceService":   [["localhost", 28000]],
-        "ScoringService":    [["localhost", 28500]],
-        "Checker":           [["localhost", 22000]],
-        "EvaluationService": [["localhost", 25000]],
+        "LogService":        [["140.122.183.114", 29000]],
+        "ResourceService":   [["140.122.183.114", 28000]],
+        "ScoringService":    [["140.122.183.114", 28500]],
+        "Checker":           [["140.122.183.114", 22000]],
+        "EvaluationService": [["140.122.183.114", 25000]],
         "Worker":            [
-            ["localhost", 26000], 
-            ["localhost", 26001],
-            ["localhost", 26002],
-            ["localhost", 26003] 
+            ["140.122.183.114", 26000], 
+            ["140.122.183.114", 26001],
+            ["140.122.183.114", 26002],
+            ["140.122.183.114", 26003] 
         ],
-        "ContestWebServer":  [["localhost", 21000]],
-        "AdminWebServer":    [["localhost", 21100]],
-        "ProxyService":      [["localhost", 28600]]
+        "ContestWebServer":  [["140.122.183.114", 21000]],
+        "AdminWebServer":    [["140.122.183.114", 21100]],
+        "ProxyService":      [["140.122.183.114", 28600]]
     },
 
     "other_services":
     {
-        "TestFileCacher":    [["localhost", 27501]]
+        "TestFileCacher":    [["140.122.183.114", 27501]]
     },
 
 
@@ -43,7 +43,7 @@
     "_section": "Database",
 
     "_help": "Connection string for the database.",
-    "database": "postgresql+psycopg2://cmsuser:urnf6tjby4mg7@localhost/database",
+    "database": "postgresql+psycopg2://cmsuser:urnf6tjby4mg7@140.122.183.114/database",
 
     "_help": "Whether SQLAlchemy prints DB queries on stdout.",
     "database_debug": false,
@@ -142,7 +142,7 @@
     "_help": "you trust.",
 
     "rankings": [],
-    "_rankings": ["http://usern6me:passw8rd@localhost:8890/"],
+    "_rankings": ["http://usern6me:passw8rd@140.122.183.114:8890/"],
     "https_certfile": null,
 
 
