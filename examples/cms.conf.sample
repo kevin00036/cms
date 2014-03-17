@@ -20,14 +20,14 @@
         "LogService":        [["140.122.183.118", 29000]],
         "ResourceService":   [
             ["140.122.183.118", 28000],
-            ["54.81.59.119", 28000]
+            ["ec2-54-83-63-12.compute-1.amazonaws.com", 28000]
         ],
         "ScoringService":    [["140.122.183.118", 28500]],
         "Checker":           [["140.122.183.118", 22000]],
         "EvaluationService": [["140.122.183.118", 25000]],
         "Worker":            [
-            ["54.81.59.119", 9000], 
-            ["54.81.59.119", 9001]
+            ["ec2-54-83-63-12.compute-1.amazonaws.com", 9000], 
+            ["ec2-54-83-63-12.compute-1.amazonaws.com", 9001]
         ],
         "ContestWebServer":  [["140.122.183.118", 21000]],
         "AdminWebServer":    [["140.122.183.118", 21100]],
@@ -143,10 +143,4 @@
     "_help": "you trust.",
 
     "rankings": [],
-    "_rankings": ["http://usern6me:passw8rd@140.122.183.118:8890/"],
-    "https_certfile": null,
-
-
-
-    "_help": "This is the end of this file."
-}
+    "_rankings": ["http://usern6me:passw8rd@140.122.183.118:8890/"
