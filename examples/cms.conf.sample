@@ -142,8 +142,8 @@
     "_help": "of them uses HTTPS specify a file with the certificates",
     "_help": "you trust.",
 
-    "rankings": [],
-    "_rankings": ["http://usern6me:passw8rd@140.122.183.118:8890/"],
+    "_rankings": [],
+    "rankings": ["http://usern6me:passw8rd@140.122.183.118:8890/"],
     "https_certfile": null,
 
 
