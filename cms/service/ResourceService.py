@@ -189,9 +189,9 @@ class ResourceService(Service):
                 cl = proc.cmdline
                 if type(cl) != tuple and type(cl) != list:
                     cl = proc.cmdline()
-                if len(proc.cmdline) >= 3 and "python" in proc.cmdline[0] and \
-                        proc.cmdline[1].endswith("cms%s" % service.name) and \
-                        proc.cmdline[2] == "%d" % service.shard:
+                if len(cl) >= 3 and "python" in cl[0] and \
+                        cl[1].endswith("cms%s" % service.name) and \
+                        cl[2] == "%d" % service.shard:
                     self._services_prev_cpu_times[service] = \
                         proc.get_cpu_times()
                     return proc

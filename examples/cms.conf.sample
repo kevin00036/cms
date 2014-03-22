@@ -19,24 +19,53 @@
     {
         "LogService":        [["140.122.183.118", 29000]],
         "ResourceService":   [
-		["140.122.183.118", 28000]
+		["ec2-54-83-63-12.compute-1.amazonaws.com", 28000],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 28000]
         ],
-        "ScoringService":    [["140.122.183.118", 28500]],
-        "Checker":           [["140.122.183.118", 22000]],
-        "EvaluationService": [["140.122.183.118", 25000]],
+        "ScoringService":    [["ec2-54-83-63-12.compute-1.amazonaws.com", 28500]],
+        "Checker":           [["ec2-54-83-63-12.compute-1.amazonaws.com", 22000]],
+        "EvaluationService": [["ec2-54-83-63-12.compute-1.amazonaws.com", 25000]],
         "Worker":            [
-		["140.122.183.118", 9000],
-		["140.122.183.118", 9001],
-		["140.122.183.118", 9002]
+		["ec2-54-83-63-12.compute-1.amazonaws.com", 9000],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9000],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9001],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9002],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9003],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9004],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9005],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9006],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9007],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9008],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9009],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9010],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9011],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9012],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9013],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9014],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9015],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9016],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9017],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9018],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9019],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9020],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9021],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9022],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9023],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9024],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9025],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9026],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9027],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9028],
+		["ec2-54-83-192-169.compute-1.amazonaws.com", 9029]
         ],
-        "ContestWebServer":  [["140.122.183.118", 21000]],
-        "AdminWebServer":    [["140.122.183.118", 21100]],
-        "ProxyService":      [["140.122.183.118", 28600]]
+        "ContestWebServer":  [["ec2-54-83-63-12.compute-1.amazonaws.com", 21000]],
+        "AdminWebServer":    [["ec2-54-83-63-12.compute-1.amazonaws.com", 21100]],
+        "ProxyService":      [["ec2-54-83-63-12.compute-1.amazonaws.com", 28600]]
     },
 
     "other_services":
     {
-        "TestFileCacher":    [["140.122.183.118", 27501]]
+        "TestFileCacher":    [["ec2-54-83-63-12.compute-1.amazonaws.com", 27501]]
     },
 
 
@@ -44,7 +73,7 @@
     "_section": "Database",
 
     "_help": "Connection string for the database.",
-    "database": "postgresql+psycopg2://cmsuser:urnf6tjby4mg7@140.122.183.118/database",
+    "database": "postgresql+psycopg2://cmsuser:urnf6tjby4mg7@ec2-54-83-63-12.compute-1.amazonaws.com/database",
 
     "_help": "Whether SQLAlchemy prints DB queries on stdout.",
     "database_debug": false,
@@ -85,7 +114,7 @@
     "_help": "as a load balancer) running on the same host you could put",
     "_help": "127.0.0.1 here for additional security.",
     "contest_listen_address": [""],
-    "contest_listen_port":    [7175],
+    "contest_listen_port":    [80],
 
     "_help": "Login cookie duration in seconds. The duration is refreshed",
     "_help": "on every manual request.",
@@ -130,7 +159,7 @@
     "_help": "it through a proxy running on the same host you could put",
     "_help": "127.0.0.1 here for additional security.",
     "admin_listen_address": "",
-    "admin_listen_port":   6371,
+    "admin_listen_port":   8889,
 
 
 
