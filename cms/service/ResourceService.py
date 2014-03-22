@@ -186,6 +186,9 @@ class ResourceService(Service):
         logger.debug("ResourceService._find_proc")
         for proc in psutil.get_process_list():
             try:
+                cl = proc.cmdline
+                if type(cl) != tuple and type(cl) != list:
+                    cl = proc.cmdline()
                 if len(proc.cmdline) >= 3 and "python" in proc.cmdline[0] and \
                         proc.cmdline[1].endswith("cms%s" % service.name) and \
                         proc.cmdline[2] == "%d" % service.shard:
@@ -284,7 +287,10 @@ class ResourceService(Service):
                 continue
 
             try:
-                dic["since"] = self._last_saved_time - proc.create_time
+                ct = proc.create_time
+                if type(ct) != float:
+                    ct = proc.create_time()
+                dic["since"] = self._last_saved_time - ct
                 dic["resident"], dic["virtual"] = \
                     (x / 1048576 for x in proc.get_memory_info())
                 cpu_times = proc.get_cpu_times()

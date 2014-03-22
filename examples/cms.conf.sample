@@ -6,7 +6,7 @@
 
     "_section": "System-wide configuration",
 
-    "temp_dir": "/tmp",
+    "temp_dir": "/var/local/run",
 
     "_help": "Whether to have a backdoor (see doc for the risks).",
     "backdoor": false,
@@ -19,15 +19,15 @@
     {
         "LogService":        [["140.122.183.118", 29000]],
         "ResourceService":   [
-            ["140.122.183.118", 28000],
-            ["ec2-54-83-63-12.compute-1.amazonaws.com", 28000]
+		["140.122.183.118", 28000]
         ],
         "ScoringService":    [["140.122.183.118", 28500]],
         "Checker":           [["140.122.183.118", 22000]],
         "EvaluationService": [["140.122.183.118", 25000]],
         "Worker":            [
-            ["ec2-54-83-63-12.compute-1.amazonaws.com", 9000], 
-            ["ec2-54-83-63-12.compute-1.amazonaws.com", 9001]
+		["140.122.183.118", 9000],
+		["140.122.183.118", 9001],
+		["140.122.183.118", 9002]
         ],
         "ContestWebServer":  [["140.122.183.118", 21000]],
         "AdminWebServer":    [["140.122.183.118", 21100]],
@@ -85,7 +85,7 @@
     "_help": "as a load balancer) running on the same host you could put",
     "_help": "127.0.0.1 here for additional security.",
     "contest_listen_address": [""],
-    "contest_listen_port":    [80],
+    "contest_listen_port":    [7175],
 
     "_help": "Login cookie duration in seconds. The duration is refreshed",
     "_help": "on every manual request.",
@@ -130,7 +130,7 @@
     "_help": "it through a proxy running on the same host you could put",
     "_help": "127.0.0.1 here for additional security.",
     "admin_listen_address": "",
-    "admin_listen_port":   8889,
+    "admin_listen_port":   6371,
 
 
 

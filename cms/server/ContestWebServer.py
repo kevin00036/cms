@@ -1118,6 +1118,15 @@ class SubmitHandler(BaseHandler):
         # (nor it discloses information to the user), but it is useful
         # for automatic testing to obtain the submission id).
         # FIXME is it actually used by something?
+
+        # Use token automatically
+
+        token = Token(self.timestamp, submission=submission)
+        self.sql_session.add(token)
+        self.sql_session.commit()
+        self.application.service.proxy_service.submission_tokened(
+            submission_id=submission.id)
+
         self.redirect("/tasks/%s/submissions?%s" % (
             quote(task.name, safe=''),
             encrypt_number(submission.id)))
